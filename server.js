@@ -23,18 +23,11 @@ let generalsNotified = false;
 let tyrantNotified = false;
 
 async function checkForSpawns() {
-  const launchOptions = {
+  const browser = await puppeteer.launch({
     headless: true,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-  };
-
-  if (process.env.PUPPETEER_EXECUTABLE_PATH) {
-    launchOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
-  } else {
-    launchOptions.channel = 'chrome';
-  }
-
-  const browser = await puppeteer.launch(launchOptions);
+  });
   const page = await browser.newPage();
 
   try {
