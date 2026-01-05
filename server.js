@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
+const puppeteer = require('puppeteer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,15 +22,33 @@ const BOSSES = [
 let notified = new Set();
 
 async function checkForSpawns() {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  });
+  const page = await browser.newPage();
+
   try {
-    const response = await axios.get(GAME_URL);
-    const $ = cheerio.load(response.data);
+    // Login
+    await page.goto('https://demonicscans.org/signin.php');
+    await page.type('input[name="email"]', 'hemopor454@fanlvr.com');
+    await page.type('input[name="password"]', 'vice123');
+    await page.click('input[type="submit"]');
+    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+
+    // Assume after login, the game page is loaded or navigate to GAME_URL
+    if (GAME_URL !== 'https://demonicscans.org/signin.php') {
+      await page.goto(GAME_URL);
+      await page.waitForSelector('.monster-container', { timeout: 10000 });
+    }
+
+    const content = await page.content();
 
     // Check for each boss
     for (const boss of BOSSES) {
-      if (response.data.includes(boss) && !notified.has(boss)) {
+      if (content.includes(boss) && !notified.has(boss)) {
         // Boss spawned
-        await sendDiscordNotification(`${boss} has spawned in Veyra!`);
+        await sendDiscordNotification(`${boss} has spawned!`);
         notified.add(boss);
       }
     }
@@ -37,6 +56,8 @@ async function checkForSpawns() {
     console.log('Checked for spawns at', new Date().toISOString());
   } catch (error) {
     console.error('Error checking spawns:', error.message);
+  } finally {
+    await browser.close();
   }
 }
 
