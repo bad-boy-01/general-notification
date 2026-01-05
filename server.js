@@ -1,13 +1,13 @@
 const express = require('express');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Configuration
-const GAME_URL = 'https://www.idleheroes.com/grakthar.php?gate=3&wave=8'; // Replace with actual wave URL
+const GAME_URL = 'https://demonicscans.org/active_wave.php?gate=3&wave=8'; // Replace with actual wave URL
 const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK; // Set in environment variables
 
 // List of boss names to monitor
@@ -25,6 +25,7 @@ let tyrantNotified = false;
 async function checkForSpawns() {
   const browser = await puppeteer.launch({
     headless: true,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || '/usr/bin/chromium-browser',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
   const page = await browser.newPage();
@@ -48,13 +49,13 @@ async function checkForSpawns() {
     // Check for generals
     const anyGeneralPresent = GENERALS.some(boss => content.includes(boss));
     if (anyGeneralPresent && !generalsNotified) {
-      await sendDiscordNotification('@╭───𒌋𒀖 「🜲・ WAVE 3 」 Generals Have Spawned.');
+      await sendDiscordNotification('<@&1442437878616559626> Generals Have Spawned.');
       generalsNotified = true;
     }
 
     // Check for tyrant
     if (content.includes(TYRANT) && !tyrantNotified) {
-      await sendDiscordNotification('@╭───𒌋𒀖 「🜲・ WAVE 3 」 Baron Have Spawned.');
+      await sendDiscordNotification('<@&1442437878616559626> Baron Have Spawned.');
       tyrantNotified = true;
     }
 
