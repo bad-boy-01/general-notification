@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configuration
 const GAME_URL = 'https://demonicscans.org/active_wave.php?gate=3&wave=8'; // Replace with actual wave URL
-const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK; // Set in environment variables
+const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1457674166617509994/_OIZRYTfuey8XDGLrSo4-Qt2B7ZNvZrH3ByD0YFHGfyemrwnpCU4zBDbPWqEYKnQN3b1';
 
 // List of boss names to monitor
 const GENERALS = [
@@ -41,7 +41,9 @@ async function checkForSpawns() {
     await page.type('input[name="email"]', 'hemopor454@fanlvr.com');
     await page.type('input[name="password"]', 'vice123');
     await page.click('input[type="submit"]');
-    await page.waitForNavigation({ waitUntil: 'networkidle2' });
+    console.log('Clicked login button');
+    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 });
+    console.log('Navigation after login completed, current URL:', page.url());
 
     // Assume after login, the game page is loaded or navigate to GAME_URL
     if (GAME_URL !== 'https://demonicscans.org/signin.php') {
@@ -122,6 +124,11 @@ app.get('/', (req, res) => {
     </body>
     </html>
   `);
+});
+
+app.post('/test-webhook', async (req, res) => {
+  await sendDiscordNotification('Test message from General Notification');
+  res.send('Test message sent to Discord');
 });
 
 app.listen(PORT, () => {

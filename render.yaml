@@ -10,4 +10,5 @@ services:
     sync: false
   region: oregon
   dockerfilePath: ./Dockerfile
+  buildCommand: apt-get update && apt-get install -y chromium && npm install
   autoDeployTrigger: commit
