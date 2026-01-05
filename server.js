@@ -24,11 +24,11 @@ let tyrantNotified = false;
 
 async function checkForSpawns() {
     const browser = await puppeteer.launch({
-    headless: "new",
+    headless: 'new',
+    executablePath: puppeteer.executablePath(),
     args: [
-      "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage"
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
     ]
   });
 
