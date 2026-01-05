@@ -11,15 +11,16 @@ const GAME_URL = 'https://www.idleheroes.com/grakthar.php?gate=3&wave=8'; // Rep
 const DISCORD_WEBHOOK = process.env.DISCORD_WEBHOOK; // Set in environment variables
 
 // List of boss names to monitor
-const BOSSES = [
+const GENERALS = [
   'Skarn, The Molten General',
   'Vessir, The Solar Inferna Empress',
-  'Hrazz The Dawnflame Seraph',
-  'Drakzareth The Tyrant Lizard King'
+  'Hrazz The Dawnflame Seraph'
 ];
+const TYRANT = 'Drakzareth The Tyrant Lizard King';
 
-// Track notified bosses to avoid spam
-let notified = new Set();
+// Track notified events
+let generalsNotified = false;
+let tyrantNotified = false;
 
 async function checkForSpawns() {
   const browser = await puppeteer.launch({
@@ -44,13 +45,17 @@ async function checkForSpawns() {
 
     const content = await page.content();
 
-    // Check for each boss
-    for (const boss of BOSSES) {
-      if (content.includes(boss) && !notified.has(boss)) {
-        // Boss spawned
-        await sendDiscordNotification(`${boss} has spawned!`);
-        notified.add(boss);
-      }
+    // Check for generals
+    const anyGeneralPresent = GENERALS.some(boss => content.includes(boss));
+    if (anyGeneralPresent && !generalsNotified) {
+      await sendDiscordNotification('@╭───𒌋𒀖 「🜲・ WAVE 3 」 Generals Have Spawned.');
+      generalsNotified = true;
+    }
+
+    // Check for tyrant
+    if (content.includes(TYRANT) && !tyrantNotified) {
+      await sendDiscordNotification('@╭───𒌋𒀖 「🜲・ WAVE 3 」 Baron Have Spawned.');
+      tyrantNotified = true;
     }
 
     console.log('Checked for spawns at', new Date().toISOString());
