@@ -25,7 +25,7 @@ let tyrantNotified = false;
 async function checkForSpawns() {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: '/usr/bin/chromium',
+    executablePath: '/usr/bin/google-chrome-stable',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
   const page = await browser.newPage();
