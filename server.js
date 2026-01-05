@@ -23,10 +23,15 @@ let generalsNotified = false;
 let tyrantNotified = false;
 
 async function checkForSpawns() {
-  const browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    const browser = await puppeteer.launch({
+    headless: "new",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage"
+    ]
   });
+
   const page = await browser.newPage();
 
   try {
