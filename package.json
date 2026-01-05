@@ -16,5 +16,8 @@
     "express": "^4.18.2",
     "puppeteer": "^22.8.2",
     "undici": "5.28.4"
+  },
+  "overrides": {
+    "undici": "5.28.4"
   }
 }
