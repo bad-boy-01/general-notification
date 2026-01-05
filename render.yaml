@@ -9,7 +9,7 @@ services:
   - key: DISCORD_WEBHOOK
     sync: false
   - key: PUPPETEER_EXECUTABLE_PATH
-    value: /usr/bin/chromium
+    value: /usr/bin/chromium-browser
   region: oregon
   dockerfilePath: ./Dockerfile
   autoDeployTrigger: commit
