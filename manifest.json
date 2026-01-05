@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Mob Spawn Notifier",
+  "version": "1.0",
+  "description": "Notifies Discord when a mob spawns in Idle Heroes",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://www.idleheroes.com/*",
+    "https://discord.com/api/webhooks/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://www.idleheroes.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
