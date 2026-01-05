@@ -1,7 +1,15 @@
+# Exported from Render on 2026-01-05T14:21:03Z
+version: "1"
 services:
-  - type: web
-    name: general-notification-api
-    env: node
-    plan: free
-    buildCommand: npm install
-    startCommand: npm start
+- type: web
+  name: general-notification
+  runtime: node
+  repo: https://github.com/bad-boy-01/general-notification
+  plan: free
+  envVars:
+  - key: DISCORD_WEBHOOK
+    sync: false
+  region: oregon
+  buildCommand: npm install
+  startCommand: npm start
+  autoDeployTrigger: commit
