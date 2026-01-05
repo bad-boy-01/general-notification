@@ -6,6 +6,9 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
+# Install system dependencies
+RUN apt-get update && apt-get install -y chromium
+
 # Install Node.js dependencies
 RUN npm install
 
