@@ -28,7 +28,8 @@ async function checkForSpawns() {
     executablePath: puppeteer.executablePath(),
     args: [
       '--no-sandbox',
-      '--disable-setuid-sandbox'
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage'
     ]
   });
 
