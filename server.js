@@ -90,7 +90,33 @@ setInterval(checkForSpawns, 30000);
 checkForSpawns();
 
 app.get('/', (req, res) => {
-  res.send('Mob Spawn Notifier is running. Checking every 30 seconds.');
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Mob Spawn Notifier</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { margin: 10px 0; padding: 10px; border-radius: 5px; }
+        .spawned { background-color: #d4edda; color: #155724; }
+        .not-spawned { background-color: #f8d7da; color: #721c24; }
+      </style>
+    </head>
+    <body>
+      <h1>Mob Spawn Notifier</h1>
+      <p>The server is checking for spawns every 30 seconds.</p>
+      <div class="status ${generalsNotified ? 'spawned' : 'not-spawned'}">
+        <strong>Generals:</strong> ${generalsNotified ? 'Spawned and notified' : 'Not spawned yet'}
+      </div>
+      <div class="status ${tyrantNotified ? 'spawned' : 'not-spawned'}">
+        <strong>Tyrant:</strong> ${tyrantNotified ? 'Spawned and notified' : 'Not spawned yet'}
+      </div>
+      <p>Last checked: ${new Date().toLocaleString()}</p>
+    </body>
+    </html>
+  `);
 });
 
 app.listen(PORT, () => {
