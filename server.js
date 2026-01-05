@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 const puppeteer = require('puppeteer-core');
 
 const app = express();
+app.use(express.urlencoded({ extended: true }));
 const PORT = process.env.PORT || 3000;
 
 // Configuration
@@ -121,14 +122,19 @@ app.get('/', (req, res) => {
         <strong>Tyrant:</strong> ${tyrantNotified ? 'Spawned and notified' : 'Not spawned yet'}
       </div>
       <p>Last checked: ${new Date().toLocaleString()}</p>
+      <form action="/test-webhook" method="post">
+        <input type="text" name="message" placeholder="Enter custom message" required>
+        <button type="submit">Send Test Message</button>
+      </form>
     </body>
     </html>
   `);
 });
 
 app.post('/test-webhook', async (req, res) => {
-  await sendDiscordNotification('Test message from General Notification');
-  res.send('Test message sent to Discord');
+  const message = req.body.message || 'Test message from General Notification';
+  await sendDiscordNotification(message);
+  res.send('Custom message sent to Discord');
 });
 
 app.listen(PORT, () => {
