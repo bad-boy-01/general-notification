@@ -4,7 +4,7 @@
   "description": "Server-side mob spawn notifier for Veyra game",
   "main": "server.js",
   "engines": {
-    "node": "18.x",
+    "node": "20.x",
     "npm": "10.x"
   },
   "scripts": {
@@ -15,10 +15,6 @@
     "axios": "^1.6.0",
     "cheerio": "^1.0.0-rc.12",
     "express": "^4.18.2",
-    "puppeteer": "^22.8.2",
-    "undici": "5.28.4"
-  },
-  "overrides": {
-    "undici": "5.28.4"
+    "puppeteer": "^22.8.2"
   }
 }
