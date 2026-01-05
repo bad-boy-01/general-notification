@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Server-side mob spawn notifier for Veyra game",
   "main": "server.js",
+  "engines": {
+    "node": "18.x",
+    "npm": "9.x"
+  },
   "scripts": {
     "start": "node server.js"
   },
