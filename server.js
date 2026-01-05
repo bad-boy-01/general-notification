@@ -43,8 +43,12 @@ async function checkForSpawns() {
     await page.type('input[name="password"]', 'vice123');
     await page.click('input[type="submit"]');
     console.log('Clicked login button');
-    await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 });
-    console.log('Navigation after login completed, current URL:', page.url());
+    try {
+      await page.waitForNavigation({ waitUntil: 'networkidle2', timeout: 60000 });
+      console.log('Navigation after login completed, current URL:', page.url());
+    } catch (error) {
+      console.log('Login navigation timed out, proceeding to game page');
+    }
 
     // Assume after login, the game page is loaded or navigate to GAME_URL
     if (GAME_URL !== 'https://demonicscans.org/signin.php') {
