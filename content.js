@@ -3,8 +3,11 @@ const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
     mutation.addedNodes.forEach((node) => {
       if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('monster-card')) {
+        // Get mob name from h3
+        const h3 = node.querySelector('h3');
+        const mobName = h3 ? h3.textContent.trim() : 'Unknown Mob';
         // Notify on new spawn
-        chrome.runtime.sendMessage({ action: 'notifyDiscord', timestamp: Date.now() });
+        chrome.runtime.sendMessage({ action: 'notifyDiscord', timestamp: Date.now(), mobName });
       }
     });
   });

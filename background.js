@@ -10,13 +10,14 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       }
 
       // Send notification to Discord
+      const mobName = message.mobName || 'Unknown Mob';
       fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          content: `Mob spawned in Idle Heroes at ${new Date(message.timestamp).toLocaleString()}!`,
+          content: `${mobName} spawned in Veyra at ${new Date(message.timestamp).toLocaleString()}!`,
         }),
       }).then(response => {
         if (!response.ok) {
