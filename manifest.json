@@ -5,12 +5,12 @@
   "description": "Notifies Discord when a mob spawns in Idle Heroes",
   "permissions": ["storage"],
   "host_permissions": [
-    "https://www.idleheroes.com/*",
-    "https://discord.com/api/webhooks/*"
+    "https://demonicscans.org/active_wave.php?gate=3&wave=8*",
+    "https://discord.com/api/webhooks/1457674166617509994/_OIZRYTfuey8XDGLrSo4-Qt2B7ZNvZrH3ByD0YFHGfyemrwnpCU4zBDbPWqEYKnQN3b1*"
   ],
   "content_scripts": [
     {
-      "matches": ["https://www.idleheroes.com/*"],
+      "matches": ["https://demonicscans.org/active_wave.php?gate=3&wave=8*"],
       "js": ["content.js"]
     }
   ],
@@ -20,4 +20,5 @@
   "action": {
     "default_popup": "popup.html"
   }
+
 }
